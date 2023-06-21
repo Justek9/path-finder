@@ -1,15 +1,24 @@
 .container {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  width: 20rem;
-  padding: 0;
-  @include center;
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	width: 20rem;
+	padding: 0;
+	@include center;
+	box-shadow: rgba(235, 235, 246, 0.2) 0px 7px 29px 0px;
 }
 
 .grid,
 .row {
-  border: 1px solid white;
-  height: 2rem;
-  width: 2rem;
+	border: 1px solid white;
+	height: 2rem;
+	width: 2rem;
+}
+
+.selected {
+	background-color: orangered;
+}
+
+.neighbour {
+	background-color: grey;
 }
