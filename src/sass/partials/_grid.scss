@@ -1,0 +1,6 @@
+.test {
+    border: 1px solid white;
+    height: 15px;
+    width: 15px;
+    @include center;
+}

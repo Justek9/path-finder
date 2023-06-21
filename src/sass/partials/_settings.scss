@@ -1,0 +1,23 @@
+// Variables
+$color-dark: #333;
+
+$font-light: 300;
+$font-normal: 400;
+$font-bold: 700;
+
+$transition: all 0.3s;
+$radius: 4px;
+
+@mixin flex($flex-direction, $align-items, $justify-content) {
+	display: flex;
+	flex-direction: $flex-direction;
+	align-items: $align-items;
+	justify-content: $justify-content;
+}
+
+@mixin center() {
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%, -50%);
+}
