@@ -1,6 +1,15 @@
-.test {
-    border: 1px solid white;
-    height: 15px;
-    width: 15px;
-    @include center;
+.container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 20rem;
+  padding: 0;
+  @include center;
+}
+
+.grid,
+.row {
+  border: 1px solid white;
+  height: 2rem;
+  width: 2rem;
 }
