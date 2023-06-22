@@ -1,5 +1,9 @@
 export const select = {
-	containerOf: {
-		grid: '.container',
-	},
-}
+  containerOf: {
+    grid: '.container',
+  },
+
+  element: {
+    tiles: '.tile',
+  },
+};
