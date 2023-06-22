@@ -4,7 +4,7 @@ class Grid {
 	constructor() {
 		const thisGrid = this
 		thisGrid.getData()
-		// thisGrid.setNeighbours()
+		thisGrid.isValidAsNeighbour()
 		thisGrid.updateUI()
 		thisGrid.drawGrid()
 		thisGrid.manageGrid()
@@ -22,12 +22,13 @@ class Grid {
 	updateUI(row, col) {
 		const thisGrid = this
 		let allTiles = document.querySelectorAll('.tile')
-		console.log(thisGrid.selected)
+
 		for (let tile of allTiles) {
 			thisGrid.state[row][col] === 0 ? tile.classList.remove('selected') : ''
 
 			thisGrid.selected.forEach(el => {
 				if (+tile.dataset.row === el[0] && +tile.dataset.column === el[1]) {
+					tile.classList.remove('neighbour')
 					tile.classList.add('selected')
 				}
 			})
@@ -43,14 +44,13 @@ class Grid {
 	gridState() {
 		const thisGrid = this
 		// States:
-		// 0 - initial state after loading
+		// 0 - initial state after loading for all tiles
 		// 1 - selected element
 		// 2 - neighbour of selected element
 
 		for (let i = 0; i < 10; i++) {
 			thisGrid.state.push(new Array(10).fill(0))
 		}
-		// console.log(thisGrid.state)
 	}
 
 	drawGrid() {
@@ -83,16 +83,11 @@ class Grid {
 				let index = thisGrid.neighbours.indexOf([row, column])
 				thisGrid.neighbours.splice(index, 1)
 				thisGrid.setAsSelected(row, column)
-				// thisGrid.setNeighbours(row, column)
 			} else if (thisGrid.isFirstClick && thisGrid.state[row][column] === 0) {
 				thisGrid.state[row][column] = 1
 				thisGrid.setAsSelected(row, column)
-				// thisGrid.setNeighbours(row, column)
 			} else if (!thisGrid.isFirstClick && thisGrid.state[row][column] === 0) alert('Please choose correct tile')
 
-			// console.log(thisGrid.neighbours)
-			// console.log(thisGrid.selected)
-			// console.log(thisGrid.state)
 			thisGrid.updateUI(row, column)
 			thisGrid.isFirstClick = false
 		})
@@ -102,42 +97,38 @@ class Grid {
 		const thisGrid = this
 		thisGrid.selected.push([row, column])
 
-		if (!(row - 1 < 0)) {
+		// check: 1) if neighbour is within grid border, 2) if it is not already a naighbour, 3) is not selected
+		if (!(row - 1 < 0) && thisGrid.isValidAsNeighbour(row - 1, column)) {
 			thisGrid.neighbours.push([row - 1, column])
 			thisGrid.state[row - 1][column] = 2
 		}
-		if (!(row + 1 > 9)) {
+		if (!(row + 1 > 9) && thisGrid.isValidAsNeighbour(row + 1, column)) {
 			thisGrid.neighbours.push([row + 1, column])
 			thisGrid.state[row + 1][column] = 2
 		}
-		if (!(column - 1 < 0)) {
+		if (!(column - 1 < 0) && thisGrid.isValidAsNeighbour(row, column - 1)) {
 			thisGrid.neighbours.push([row, column - 1])
 			thisGrid.state[row][column - 1] = 2
 		}
-		if (!(column + 1 > 9)) {
+		if (!(column + 1 > 9) && thisGrid.isValidAsNeighbour(row, column + 1)) {
 			thisGrid.neighbours.push([row, column + 1])
 			thisGrid.state[row][column + 1] = 2
 		}
 	}
 
-	// setNeighbours(row, column) {
-	// 	const thisGrid = this
-	// 	if (!(row - 1 < 0)) {
-	// 		thisGrid.neighbours.push([row - 1, column])
-	// 		thisGrid.state[row - 1][column] = 2
-	// 	}
-	// 	if (!(row + 1 > 9)) {
-	// 		thisGrid.neighbours.push([row + 1, column])
-	// 		thisGrid.state[row + 1][column] = 2
-	// 	}
-	// 	if (!(column - 1 < 0)) {
-	// 		thisGrid.neighbours.push([row, column - 1])
-	// 		thisGrid.state[row][column - 1] = 2
-	// 	}
-	// 	if (!(column + 1 > 9)) {
-	// 		thisGrid.neighbours.push([row, column + 1])
-	// 		thisGrid.state[row][column + 1] = 2
-	// 	}
-	// }
+	isValidAsNeighbour(r, c) {
+		const thisGrid = this
+		// validate if tile is not in thisGrid.selected and not in thisGrid.neighbours arrays
+
+		if (
+			thisGrid.neighbours.filter(el => {
+				return el[0] === r && el[1] === c
+			}).length === 0 &&
+			thisGrid.selected.filter(el => {
+				return el[0] === r && el[1] === c
+			}).length === 0
+		)
+			return true
+	}
 }
 export default Grid
