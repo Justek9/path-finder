@@ -6,12 +6,12 @@
 
 body {
   margin: 0;
-  background-color: $color-dark;
-  // font-family: $font-text;
-  // font-size: 14px;
+  height: 100vh;
+  background-color: $color-very-dark;
   line-height: 1.7;
   font-weight: $font-normal;
-  // color: $color-dark;
+  font-family: $font-main;
+  color: $color-light;
 }
 
 .container {
@@ -19,4 +19,3 @@ body {
   margin: 0 auto;
   padding: 0 20px;
 }
-
