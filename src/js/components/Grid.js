@@ -26,16 +26,16 @@ class Grid {
 		for (let tile of allTiles) {
 			thisGrid.state[row][col] === 0 ? tile.classList.remove('selected') : ''
 
+			thisGrid.neighbours.forEach(el => {
+				if (+tile.dataset.row === el[0] && +tile.dataset.column === el[1]) {
+					tile.classList.add('neighbour')
+				}
+			})
+
 			thisGrid.selected.forEach(el => {
 				if (+tile.dataset.row === el[0] && +tile.dataset.column === el[1]) {
 					tile.classList.remove('neighbour')
 					tile.classList.add('selected')
-				}
-			})
-
-			thisGrid.neighbours.forEach(el => {
-				if (+tile.dataset.row === el[0] && +tile.dataset.column === el[1]) {
-					tile.classList.add('neighbour')
 				}
 			})
 		}
@@ -86,7 +86,8 @@ class Grid {
 			} else if (thisGrid.isFirstClick && thisGrid.state[row][column] === 0) {
 				thisGrid.state[row][column] = 1
 				thisGrid.setAsSelected(row, column)
-			} else if (!thisGrid.isFirstClick && thisGrid.state[row][column] === 0) alert('Please choose correct tile')
+			} else if (!thisGrid.isFirstClick && thisGrid.state[row][column] === 0)
+				alert('Please choose correct tile (green bakground)')
 
 			thisGrid.updateUI(row, column)
 			thisGrid.isFirstClick = false
@@ -118,8 +119,6 @@ class Grid {
 
 	isValidAsNeighbour(r, c) {
 		const thisGrid = this
-		// validate if tile is not in thisGrid.selected and not in thisGrid.neighbours arrays
-
 		if (
 			thisGrid.neighbours.filter(el => {
 				return el[0] === r && el[1] === c

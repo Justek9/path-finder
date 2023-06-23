@@ -1,6 +1,6 @@
 export const select = {
   containerOf: {
-    grid: '.container',
+    grid: '.grid',
   },
 
   element: {

@@ -1,4 +1,4 @@
-.container {
+.grid {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
@@ -14,12 +14,12 @@
   width: 2rem;
 }
 
-.neighbour {
-  background-color: grey;
-}
-
 .selected {
   background-color: orangered;
+}
+
+.neighbour {
+  background-color: rgba(165, 250, 5, 0.3);
 }
 
 .disable {
