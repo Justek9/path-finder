@@ -1,4 +1,4 @@
-import { select } from '../settings.js';
+import { select, classNames } from '../settings.js';
 
 class Grid {
   constructor() {
@@ -24,18 +24,18 @@ class Grid {
     let allTiles = document.querySelectorAll('.tile');
 
     for (let tile of allTiles) {
-      thisGrid.state[row][col] === 0 ? tile.classList.remove('selected') : '';
+      thisGrid.state[row][col] === 0 ? tile.classList.remove(classNames.tile.selected) : '';
 
       thisGrid.neighbours.forEach(el => {
         if (+tile.dataset.row === el[0] && +tile.dataset.column === el[1]) {
-          tile.classList.add('neighbour');
+          tile.classList.add(classNames.tile.neighbour);
         }
       });
 
       thisGrid.selected.forEach(el => {
         if (+tile.dataset.row === el[0] && +tile.dataset.column === el[1]) {
-          tile.classList.remove('neighbour');
-          tile.classList.add('selected');
+          tile.classList.remove(classNames.tile.neighbour);
+          tile.classList.add(classNames.tile.selected);
         }
       });
     }
@@ -60,7 +60,7 @@ class Grid {
     for (let rows = 0; rows < 10; rows++) {
       for (let columns = 0; columns < 10; columns++) {
         const cell = document.createElement('div');
-        cell.classList.add('tile');
+        cell.classList.add(classNames.tile.tile);
         cell.setAttribute('data-row', rows);
         cell.setAttribute('data-column', columns);
         thisGrid.gridContainer.appendChild(cell);
@@ -115,6 +115,7 @@ class Grid {
       thisGrid.neighbours.push([row, column + 1]);
       thisGrid.state[row][column + 1] = 2;
     }
+    console.log(thisGrid.state);
   }
 
   isValidAsNeighbour(r, c) {
