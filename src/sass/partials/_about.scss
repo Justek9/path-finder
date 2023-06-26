@@ -1,0 +1,50 @@
+.plan-journeys {
+  position: relative;
+  border: 2px solid rgb(0, 0, 0);
+  width: 80vw;
+  text-align: right;
+
+  h3 {
+    left: 40%;
+    bottom: 50px;
+    text-align: left;
+  }
+
+  h4 {
+    left: 40%;
+    text-align: left;
+    bottom: 40px;
+  }
+
+  img {
+    position: absolute;
+    width: 40vw;
+    bottom: -90px;
+    left: 5%;
+    z-index: 2;
+  }
+}
+
+.boredom {
+  position: relative;
+  margin-top: 150px;
+  border: 2px solid rgb(0, 0, 0);
+
+  img {
+    position: absolute;
+    width: 60vw;
+    right: 5%;
+  }
+
+  h3 {
+    top: 50px;
+    left: 20%;
+    text-align: left;
+  }
+
+  h4 {
+    top: 100px;
+    left: 20%;
+    text-align: left;
+  }
+}

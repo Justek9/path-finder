@@ -1,0 +1,16 @@
+h3 {
+  position: absolute;
+  font-size: 2rem;
+  line-height: 2.5rem;
+  font-weight: $font-bold;
+  z-index: 3;
+  text-transform: uppercase;
+  letter-spacing: 0.5rem;
+}
+
+h4 {
+  position: absolute;
+  line-height: 1rem;
+  z-index: 3;
+  letter-spacing: 0.5rem;
+}

@@ -21,3 +21,34 @@
 .neighbour {
   background-color: rgba(165, 250, 5, 0.3);
 }
+
+.draw {
+  position: absolute;
+  top: 25%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-transform: uppercase;
+}
+
+.btn {
+  position: absolute;
+  top: 80%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: none;
+  text-transform: uppercase;
+  color: white;
+  background-color: orangered;
+  border-radius: $radius;
+  border-style: none;
+  height: 3rem;
+  width: 7rem;
+
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.active-btn {
+  display: block;
+}
