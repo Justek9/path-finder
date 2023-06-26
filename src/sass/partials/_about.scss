@@ -1,8 +1,7 @@
 .plan-journeys {
   position: relative;
-  border: 2px solid rgb(0, 0, 0);
   width: 80vw;
-  text-align: right;
+  text-align: left;
 
   h3 {
     left: 40%;
@@ -17,23 +16,21 @@
   }
 
   img {
-    position: absolute;
+    margin-top: -20vw;
+    margin-left: 10vw;
+    height: auto;
     width: 40vw;
-    bottom: -90px;
-    left: 5%;
     z-index: 2;
   }
 }
 
 .boredom {
   position: relative;
-  margin-top: 150px;
-  border: 2px solid rgb(0, 0, 0);
+  margin-top: 50px;
 
   img {
-    position: absolute;
     width: 60vw;
-    right: 5%;
+    margin-left: 30vw;
   }
 
   h3 {
