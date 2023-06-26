@@ -1,66 +1,75 @@
 .grid-wrapper {
-	position: absolute;
-	top: 70vh;
-	left: 50%;
-	transform: translateX(-50%);
+  position: absolute;
+  top: 70vh;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 .grid-container {
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-	flex-wrap: wrap;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
 }
 
 .grid {
-	display: flex;
-	flex-direction: row;
-	flex-wrap: wrap;
-	width: 30rem;
-	box-shadow: rgba(235, 235, 246, 0.2) 0px 7px 29px 0px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 30rem;
+  box-shadow: rgba(235, 235, 246, 0.2) 0px 7px 29px 0px;
 }
 
 .tile {
-	border: 2px solid white;
-	height: 3rem;
-	width: 3rem;
+  border: 2px solid white;
+  height: 3rem;
+  width: 3rem;
 }
 
 .selected {
-	background-color: orangered;
+  background-color: orangered;
 }
 
 .neighbour {
-	background-color: rgba(165, 250, 5, 0.3);
+  background-color: rgba(165, 250, 5, 0.3);
 }
 
 .draw {
-	position: absolute;
-	top: 50vh;
-	left: 50%;
-	transform: translate(-50%, -50%);
-	text-transform: uppercase;
-	font-weight: $font-bold;
-	font-size: 2rem;
+  position: absolute;
+  top: 50vh;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-transform: uppercase;
+  font-weight: $font-bold;
+  font-size: 2rem;
 }
 
 .btn {
-	display: none;
-	text-transform: uppercase;
-	color: white;
-	background-color: orangered;
-	border-radius: $radius;
-	border-style: none;
-	height: 3rem;
-	width: 7rem;
+  display: none;
+  text-transform: uppercase;
+  color: white;
+  background-color: orangered;
+  border-radius: $radius;
+  border-style: none;
+  height: 3rem;
+  width: 7rem;
 
-	&:hover {
-		cursor: pointer;
-	}
+  &:hover {
+    cursor: pointer;
+  }
 }
 
 .active-btn {
-	display: block;
-	margin-top: 2rem;
+  display: block;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
+
+.first-selected {
+  background-color: rgb(234, 203, 29);
+}
+
+.last-selected {
+  background-color: rgb(0, 255, 229);
 }

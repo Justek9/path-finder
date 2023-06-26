@@ -1,61 +1,61 @@
 .header {
-	position: relative;
-	height: 100vh;
+  position: relative;
+  height: 100vh;
 
-	img {
-		height: 100%;
-		width: 100%;
-		filter: contrast(1.2);
-		mask-image: linear-gradient(#000 50%, rgba(0, 0, 0, 0.2) 100%);
-		-webkit-mask-image: linear-gradient(#000 50%, rgba(0, 0, 0, 0.2) 100%);
-	}
+  img {
+    height: 100%;
+    width: 100%;
+    filter: contrast(1.2);
+    mask-image: linear-gradient(#000 50%, rgba(0, 0, 0, 0.2) 100%);
+    -webkit-mask-image: linear-gradient(#000 50%, rgba(0, 0, 0, 0.2) 100%);
+  }
 
-	.header__wrapper {
-		display: flex;
-		flex-wrap: wrap;
-		flex-direction: column;
-	}
+  .header__wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+  }
 }
 
 .logo {
-	position: absolute;
-	color: $color-light;
-	text-transform: uppercase;
-	letter-spacing: 0.2rem;
-	@include center;
-	top: 35%;
-	font-weight: $font-bold;
+  position: absolute;
+  color: $color-light;
+  text-transform: uppercase;
+  letter-spacing: 0.2rem;
+  @include center;
+  top: 35%;
+  font-weight: $font-bold;
 
-	.logo__title {
-		letter-spacing: 2rem;
-		font-size: 3rem;
-		margin-bottom: 0px;
-	}
+  .logo__title {
+    letter-spacing: 2rem;
+    font-size: 3rem;
+    margin-bottom: 0px;
+  }
 
-	.logo__subtitle {
-		font-size: 1.5rem;
-		text-align: right;
-		margin-top: 0px;
-	}
+  .logo__subtitle {
+    font-size: 1.5rem;
+    text-align: right;
+    margin-top: 0px;
+  }
 }
 
 .main-nav {
-	position: absolute;
-	top: 5%;
-	left: 50%;
-	transform: translate(-50%, -50%);
+  position: absolute;
+  top: 5%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 
-	a {
-		color: $color-light;
-		text-decoration: none;
-		text-transform: uppercase;
-		font-weight: $font-bold;
-		padding: 1rem;
+  a {
+    color: $color-light;
+    text-decoration: none;
+    text-transform: uppercase;
+    font-weight: $font-bold;
+    padding: 1rem;
 
-		&:hover {
-			cursor: pointer;
-			color: $color-very-dark;
-			transition: $transition;
-		}
-	}
+    &:hover {
+      cursor: pointer;
+      color: $color-very-dark;
+      transition: $transition;
+    }
+  }
 }
