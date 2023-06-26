@@ -1,54 +1,66 @@
+.grid-wrapper {
+	position: absolute;
+	top: 70vh;
+	left: 50%;
+	transform: translateX(-50%);
+}
+
+.grid-container {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	flex-wrap: wrap;
+}
+
 .grid {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  width: 20rem;
-  padding: 0;
-  @include center;
-  box-shadow: rgba(235, 235, 246, 0.2) 0px 7px 29px 0px;
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	width: 30rem;
+	box-shadow: rgba(235, 235, 246, 0.2) 0px 7px 29px 0px;
 }
 
 .tile {
-  border: 1px solid white;
-  height: 2rem;
-  width: 2rem;
+	border: 2px solid white;
+	height: 3rem;
+	width: 3rem;
 }
 
 .selected {
-  background-color: orangered;
+	background-color: orangered;
 }
 
 .neighbour {
-  background-color: rgba(165, 250, 5, 0.3);
+	background-color: rgba(165, 250, 5, 0.3);
 }
 
 .draw {
-  position: absolute;
-  top: 25%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  text-transform: uppercase;
+	position: absolute;
+	top: 50vh;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	text-transform: uppercase;
+	font-weight: $font-bold;
+	font-size: 2rem;
 }
 
 .btn {
-  position: absolute;
-  top: 80%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  display: none;
-  text-transform: uppercase;
-  color: white;
-  background-color: orangered;
-  border-radius: $radius;
-  border-style: none;
-  height: 3rem;
-  width: 7rem;
+	display: none;
+	text-transform: uppercase;
+	color: white;
+	background-color: orangered;
+	border-radius: $radius;
+	border-style: none;
+	height: 3rem;
+	width: 7rem;
 
-  &:hover {
-    cursor: pointer;
-  }
+	&:hover {
+		cursor: pointer;
+	}
 }
 
 .active-btn {
-  display: block;
+	display: block;
+	margin-top: 2rem;
 }
