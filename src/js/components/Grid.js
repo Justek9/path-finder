@@ -7,7 +7,7 @@ class Grid {
     thisGrid.isValidAsNeighbour();
     thisGrid.updateUI();
     thisGrid.drawGrid();
-    thisGrid.manageGrid();
+    thisGrid.manageGridState();
     thisGrid.finishDrawingBtnHandler();
     thisGrid.computeBtnHandler();
     thisGrid.startAgainBtnHandler();
@@ -21,6 +21,7 @@ class Grid {
     thisGrid.neighbours = [];
     thisGrid.startPoint = [];
     thisGrid.finishPoint = [];
+    thisGrid.pathNeighbours = [];
     thisGrid.isFirstClick = true;
     thisGrid.isFinishedDrawing = false;
     thisGrid.isStartSelected = false;
@@ -97,7 +98,7 @@ class Grid {
     thisGrid.initGridState();
   }
 
-  manageGrid() {
+  manageGridState() {
     const thisGrid = this;
 
     // add event listener on cells
@@ -189,6 +190,7 @@ class Grid {
       thisGrid.instructions.innerHTML = 'Pick start and finish';
       thisGrid.finishDrawingBtn.classList.remove('active-btn');
       thisGrid.computeRouteBtn.classList.add('active-btn');
+      console.log(thisGrid.state);
     });
   }
 
@@ -198,6 +200,9 @@ class Grid {
       thisGrid.instructions.innerHTML = 'The best route is...';
       thisGrid.computeRouteBtn.classList.remove('active-btn');
       thisGrid.startAgainBtn.classList.add('active-btn');
+      thisGrid.shortestPath();
+      // console.log(thisGrid.startPoint[0][0], thisGrid.startPoint[0][1])
+      thisGrid.getPathNeighbours(thisGrid.startPoint[0][0], thisGrid.startPoint[0][1]);
     });
   }
 
@@ -210,13 +215,29 @@ class Grid {
       thisGrid.finishDrawingBtn.classList.add('active-btn');
       thisGrid.instructions.innerHTML = 'Draw routes';
 
-      thisGrid.state = [];
-      for (let i = 0; i < 10; i++) {
-        thisGrid.state.push(new Array(10).fill(0));
-      }
       thisGrid.gridContainer.innerHTML = '';
       thisGrid.drawGrid();
+      thisGrid.initGridState();
     });
+  }
+
+  shortestPath() {}
+
+  getPathNeighbours(row, column) {
+    const thisGrid = this;
+    if (!(column + 1 > 9) && thisGrid.state[row][column + 1] === 1) {
+      thisGrid.pathNeighbours.push([row, column + 1]);
+    }
+    if (!(column - 1 < 0) && thisGrid.state[row][column - 1] === 1) {
+      thisGrid.pathNeighbours.push([row, column - 1]);
+    }
+    if (!(row - 1 > 9) && thisGrid.state[row + 1][column] === 1) {
+      thisGrid.pathNeighbours.push([row + 1, column]);
+    }
+    if (!(row - 1 < 0) && thisGrid.state[row - 1][column] === 1) {
+      thisGrid.pathNeighbours.push([row - 1, column]);
+    }
+    console.log(thisGrid.pathNeighbours);
   }
 }
 export default Grid;
