@@ -31,7 +31,7 @@ class Grid {
     thisGrid.startPoint = [];
     thisGrid.finishPoint = [];
     thisGrid.pathNeighbours = [];
-    thisGrid.visitedNode = [];
+    thisGrid.visitedNodes = [];
     thisGrid.queue = [];
     thisGrid.isFirstClick = true;
     thisGrid.isFinishedDrawing = false;
@@ -202,8 +202,8 @@ class Grid {
   isNotVisited(r, c) {
     const thisGrid = this;
 
-    // check if is not in visitedNodes array
-    return thisGrid.isNotIncluded(thisGrid.visitedNode, r, c);
+    // check if is not in visitedNodess array
+    return thisGrid.isNotIncluded(thisGrid.visitedNodes, r, c);
   }
 
   isValidAsPathNeighbour(r, c) {
@@ -237,13 +237,18 @@ class Grid {
   shortestPath() {
     const thisGrid = this;
 
-    // Find shortest path from startPoint to FinishPoint using BFS algorithm
+    // Find shortest path from startPoint to finishPoint using BFS algorithm
     thisGrid.queue.push(thisGrid.startPoint[0]);
     // console.log(thisGrid.startPoint)
     // console.log(thisGrid.queue)
-    thisGrid.visitedNode.push(thisGrid.startPoint[0]);
-    console.log(thisGrid.visitedNode);
-    console.log(thisGrid.queue.length);
+    thisGrid.visitedNodes.push(thisGrid.startPoint[0]);
+    console.log(thisGrid.visitedNodes);
+    // console.log(thisGrid.queue.length);
+
+    let previousCell = [];
+    for (let i = 0; i < 10; i++) {
+      previousCell.push(new Array(10).fill(false));
+    }
 
     while (thisGrid.queue.length > 0) {
       let curr = thisGrid.queue.shift();
@@ -254,14 +259,15 @@ class Grid {
         return true;
       }
 
-      // console.log(curr[0], curr[1])
       thisGrid.getPathNeighbours(curr[0], curr[1]);
       console.log('pathNeighbours', thisGrid.pathNeighbours);
 
       for (let i = 0; i < thisGrid.pathNeighbours.length; i++) {
         if (this.isNotVisited(thisGrid.pathNeighbours[i][0], thisGrid.pathNeighbours[i][1])) {
-          thisGrid.visitedNode.push(thisGrid.pathNeighbours[i]);
+          thisGrid.visitedNodes.push(thisGrid.pathNeighbours[i]);
           thisGrid.queue.push(thisGrid.pathNeighbours[i]);
+          previousCell[thisGrid.pathNeighbours[i][0]][thisGrid.pathNeighbours[i][1]] = `${curr[0]}, ${curr[1]}`;
+          console.log(previousCell);
         }
       }
     }
