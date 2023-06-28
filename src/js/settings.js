@@ -33,5 +33,6 @@ export const classNames = {
     neighbour: 'neighbour',
     start: 'first-selected',
     finish: 'last-selected',
+    path: 'path',
   },
 };

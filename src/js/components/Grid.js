@@ -135,7 +135,6 @@ class Grid {
         thisGrid.state[row][column] = 4;
         thisGrid.isFinishSelected = true;
         thisGrid.finishPoint.push([row, column]);
-        console.log('start', thisGrid.startPoint, 'finish', thisGrid.finishPoint);
       }
 
       if (thisGrid.state[row][column] === 2) {
@@ -220,7 +219,6 @@ class Grid {
       thisGrid.instructions.innerHTML = 'Pick start and finish';
       thisGrid.finishDrawingBtn.classList.remove('active-btn');
       thisGrid.computeRouteBtn.classList.add('active-btn');
-      // console.log(thisGrid.state)
     });
   }
 
@@ -237,42 +235,65 @@ class Grid {
   shortestPath() {
     const thisGrid = this;
 
-    // Find shortest path from startPoint to finishPoint using BFS algorithm
+    // Find shortest path from startPoint to finishPoint based on BFS algorithm
     thisGrid.queue.push(thisGrid.startPoint[0]);
     // console.log(thisGrid.startPoint)
-    // console.log(thisGrid.queue)
-    thisGrid.visitedNodes.push(thisGrid.startPoint[0]);
-    console.log(thisGrid.visitedNodes);
-    // console.log(thisGrid.queue.length);
 
-    let previousCell = [];
+    thisGrid.visitedNodes.push(thisGrid.startPoint[0]);
+
+    // declare helper variable to keep track of previously visited cells
+    thisGrid.previousCell = [];
     for (let i = 0; i < 10; i++) {
-      previousCell.push(new Array(10).fill(false));
+      thisGrid.previousCell.push(new Array(10).fill(false));
     }
 
     while (thisGrid.queue.length > 0) {
       let curr = thisGrid.queue.shift();
-      console.log('current', curr);
+
+      // check if current cell is finish point
 
       if (curr[0] === thisGrid.finishPoint[0][0] && curr[1] === thisGrid.finishPoint[0][1]) {
-        console.log('found it');
+        thisGrid.renderPath();
         return true;
       }
 
+      // get neighbours of current cell
       thisGrid.getPathNeighbours(curr[0], curr[1]);
-      console.log('pathNeighbours', thisGrid.pathNeighbours);
+      //   console.log('pathNeighbours', thisGrid.pathNeighbours);
 
+      // for each neighbour add it to visited and to queue, update previousCell array
       for (let i = 0; i < thisGrid.pathNeighbours.length; i++) {
         if (this.isNotVisited(thisGrid.pathNeighbours[i][0], thisGrid.pathNeighbours[i][1])) {
           thisGrid.visitedNodes.push(thisGrid.pathNeighbours[i]);
           thisGrid.queue.push(thisGrid.pathNeighbours[i]);
-          previousCell[thisGrid.pathNeighbours[i][0]][thisGrid.pathNeighbours[i][1]] = `${curr[0]}, ${curr[1]}`;
-          console.log(previousCell);
+          thisGrid.previousCell[thisGrid.pathNeighbours[i][0]][thisGrid.pathNeighbours[i][1]] = curr;
         }
       }
     }
-    console.log('not found');
+
     return false;
+  }
+
+  renderPath() {
+    const thisGrid = this;
+    let path = [];
+    path.push(thisGrid.finishPoint[0]);
+
+    while (thisGrid.previousCell[path[path.length - 1][0]][path[path.length - 1][1]] !== false) {
+      let toPush = thisGrid.previousCell[path[path.length - 1][0]][path[path.length - 1][1]];
+      path.push(toPush);
+    }
+
+    let allTiles = document.querySelectorAll('.tile');
+
+    for (let tile of allTiles) {
+      path.forEach(el => {
+        if (+tile.dataset.row === el[0] && +tile.dataset.column === el[1]) {
+          tile.classList.remove(classNames.tile.selected);
+          tile.classList.add(classNames.tile.path);
+        }
+      });
+    }
   }
 
   startAgainBtnHandler() {
