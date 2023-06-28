@@ -6,7 +6,7 @@ export const select = {
 
   element: {
     tiles: '.tile',
-    draw: '.draw',
+    text: '.draw',
   },
 
   nav: {
