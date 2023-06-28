@@ -179,15 +179,12 @@ class Grid {
     }
   }
 
-  isValidAsNeighbour(r, c) {
-    const thisGrid = this;
-
-    // check if is not in neighbours already and not in selected array
+  isNotIncluded(array, r, c) {
     if (
-      thisGrid.neighbours.filter(el => {
+      array.filter(el => {
         return el[0] === r && el[1] === c;
       }).length === 0 &&
-			thisGrid.selected.filter(el => {
+			array.filter(el => {
 			  return el[0] === r && el[1] === c;
 			}).length === 0
     )
@@ -195,17 +192,25 @@ class Grid {
     else return false;
   }
 
+  isValidAsNeighbour(r, c) {
+    const thisGrid = this;
+
+    // check if is not in heighbours arary and not in selected arary
+    return thisGrid.isNotIncluded(thisGrid.neighbours, r, c) && thisGrid.isNotIncluded(thisGrid.selected, r, c);
+  }
+
+  isNotVisited(r, c) {
+    const thisGrid = this;
+
+    // check if is not in visitedNodes array
+    return thisGrid.isNotIncluded(thisGrid.visitedNode, r, c);
+  }
+
   isValidAsPathNeighbour(r, c) {
     const thisGrid = this;
 
-    // check if is not in path neighbours already
-    if (
-      thisGrid.pathNeighbours.filter(el => {
-        return el[0] === r && el[1] === c;
-      }).length === 0
-    )
-      return true;
-    else return false;
+    // check if is not in pathNeighbours array already
+    return thisGrid.isNotIncluded(thisGrid.pathNeighbours, r, c);
   }
 
   finishDrawingBtnHandler() {
@@ -281,26 +286,13 @@ class Grid {
     });
   }
 
-  isNotVisited(row, column) {
-    const thisGrid = this;
-    // check if is not in visitedNodes array
-    if (
-      thisGrid.visitedNode.filter(el => {
-        return el[0] === row && el[1] === column;
-      }).length === 0
-    ) {
-      return true;
-    } else return false;
-  }
-
   getPathNeighbours(row, column) {
     const thisGrid = this;
-    console.log(thisGrid.state);
     thisGrid.pathNeighbours = [];
 
     if (
       !(column + 1 > 9) &&
-			thisGrid.state[row][column + 1] === 4 &&
+			(thisGrid.state[row][column + 1] === 1 || thisGrid.state[row][column + 1] === 4) &&
 			thisGrid.isValidAsPathNeighbour(row, column + 1) &&
 			thisGrid.isNotVisited(row, column + 1)
     ) {
@@ -308,7 +300,7 @@ class Grid {
     }
     if (
       !(column - 1 < 0) &&
-			thisGrid.state[row][column - 1] === 4 &&
+			(thisGrid.state[row][column - 1] === 1 || thisGrid.state[row][column - 1] === 4) &&
 			thisGrid.isValidAsPathNeighbour(row, column - 1) &&
 			thisGrid.isNotVisited(row, column - 1)
     ) {
@@ -316,7 +308,7 @@ class Grid {
     }
     if (
       !(row + 1 > 9) &&
-			thisGrid.state[row + 1][column] === 4 &&
+			(thisGrid.state[row + 1][column] === 1 || thisGrid.state[row + 1][column] === 4) &&
 			thisGrid.isValidAsPathNeighbour(row + 1, column) &&
 			thisGrid.isNotVisited(row + 1, column)
     ) {
@@ -324,42 +316,9 @@ class Grid {
     }
     if (
       !(row - 1 < 0) &&
-			thisGrid.state[row - 1][column] === 4 &&
+			(thisGrid.state[row - 1][column] === 1 || thisGrid.state[row - 1][column] === 4) &&
 			thisGrid.isValidAsPathNeighbour(row - 1, column) &&
 			thisGrid.isNotVisited(row - 1, column)
-    ) {
-      thisGrid.pathNeighbours.push([row - 1, column]);
-    }
-
-    if (
-      !(column + 1 > 9) &&
-			thisGrid.state[row][column + 1] === 1 &&
-			thisGrid.isValidAsPathNeighbour(row, column + 1) &&
-			thisGrid.isNotVisited(row, column + 1)
-    ) {
-      thisGrid.pathNeighbours.push([row, column + 1]);
-    }
-    if (
-      !(column - 1 < 0) &&
-			thisGrid.state[row][column - 1] === 1 &&
-			thisGrid.isValidAsPathNeighbour(row, column - 1) &&
-			thisGrid.isNotVisited(row, column - 1)
-    ) {
-      thisGrid.pathNeighbours.push([row, column - 1]);
-    }
-    if (
-      !(row + 1 > 9) &&
-			thisGrid.state[row + 1][column] === 1 &&
-			thisGrid.isValidAsPathNeighbour(row + 1, column) &&
-			thisGrid.isNotVisited(row + 1, column)
-    ) {
-      thisGrid.pathNeighbours.push([row + 1, column]);
-    }
-    if (
-      !(row - 1 < 0) &&
-			thisGrid.state[row - 1][column] === 1 &&
-			thisGrid.isValidAsPathNeighbour(row - 1, column) &&
-			thisGrid.isNotVisited(row + 1, column)
     ) {
       thisGrid.pathNeighbours.push([row - 1, column]);
     }
