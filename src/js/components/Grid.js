@@ -60,11 +60,13 @@ class Grid {
         }
       });
 
-      thisGrid.neighbours.forEach(el => {
-        if (+tile.dataset.row === el[0] && +tile.dataset.column === el[1]) {
-          tile.classList.add(classNames.tile.neighbour);
-        }
-      });
+      if (!thisGrid.isFinishedDrawing === true) {
+        thisGrid.neighbours.forEach(el => {
+          if (+tile.dataset.row === el[0] && +tile.dataset.column === el[1]) {
+            tile.classList.add(classNames.tile.neighbour);
+          }
+        });
+      }
 
       thisGrid.selected.forEach(el => {
         if (+tile.dataset.row === el[0] && +tile.dataset.column === el[1]) {
