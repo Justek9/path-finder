@@ -139,8 +139,6 @@ class Grid {
 
       if (thisGrid.state[row][column] === 2) {
         thisGrid.state[row][column] = 1;
-        let index = thisGrid.neighbours.indexOf([row, column]);
-        thisGrid.neighbours.splice(index, 1);
         thisGrid.setAsSelected(row, column);
       } else if (thisGrid.isFirstClick && thisGrid.state[row][column] === 0) {
         thisGrid.state[row][column] = 1;
@@ -155,6 +153,7 @@ class Grid {
 
   setAsSelected(row, column) {
     const thisGrid = this;
+
     thisGrid.selected.push([row, column]);
 
     // check: 1) if neighbour is within grid border, 2) if it is not already a naighbour, 3) is not selected
@@ -182,10 +181,7 @@ class Grid {
     if (
       array.filter(el => {
         return el[0] === r && el[1] === c;
-      }).length === 0 &&
-			array.filter(el => {
-			  return el[0] === r && el[1] === c;
-			}).length === 0
+      }).length === 0
     )
       return true;
     else return false;
@@ -194,7 +190,7 @@ class Grid {
   isValidAsNeighbour(r, c) {
     const thisGrid = this;
 
-    // check if is not in heighbours arary and not in selected arary
+    // check if is not in neighbours arary and not in selected arary
     return thisGrid.isNotIncluded(thisGrid.neighbours, r, c) && thisGrid.isNotIncluded(thisGrid.selected, r, c);
   }
 
@@ -219,6 +215,16 @@ class Grid {
       thisGrid.instructions.innerHTML = 'Pick start and finish';
       thisGrid.finishDrawingBtn.classList.remove('active-btn');
       thisGrid.computeRouteBtn.classList.add('active-btn');
+
+      let allTiles = document.querySelectorAll('.tile');
+
+      for (let tile of allTiles) {
+        thisGrid.neighbours.forEach(el => {
+          if (+tile.dataset.row === el[0] && +tile.dataset.column === el[1]) {
+            tile.classList.remove(classNames.tile.neighbour);
+          }
+        });
+      }
     });
   }
 
@@ -237,8 +243,6 @@ class Grid {
 
     // Find shortest path from startPoint to finishPoint based on BFS algorithm
     thisGrid.queue.push(thisGrid.startPoint[0]);
-    // console.log(thisGrid.startPoint)
-
     thisGrid.visitedNodes.push(thisGrid.startPoint[0]);
 
     // declare helper variable to keep track of previously visited cells
@@ -259,7 +263,6 @@ class Grid {
 
       // get neighbours of current cell
       thisGrid.getPathNeighbours(curr[0], curr[1]);
-      //   console.log('pathNeighbours', thisGrid.pathNeighbours);
 
       // for each neighbour add it to visited and to queue, update previousCell array
       for (let i = 0; i < thisGrid.pathNeighbours.length; i++) {
