@@ -39,42 +39,21 @@ class Grid {
     thisGrid.isFinishSelected = false;
   }
 
-  updateUI(row, col) {
+  drawGrid() {
     const thisGrid = this;
-    let allTiles = document.querySelectorAll('.tile');
 
-    for (let tile of allTiles) {
-      thisGrid.state[row][col] === 0 ? tile.classList.remove(classNames.tile.selected) : '';
-
-      thisGrid.startPoint.forEach(el => {
-        if (+tile.dataset.row === el[0] && +tile.dataset.column === el[1]) {
-          tile.classList.remove(classNames.tile.selected);
-          tile.classList.add(classNames.tile.start);
-        }
-      });
-
-      thisGrid.finishPoint.forEach(el => {
-        if (+tile.dataset.row === el[0] && +tile.dataset.column === el[1]) {
-          tile.classList.remove(classNames.tile.selected);
-          tile.classList.add(classNames.tile.finish);
-        }
-      });
-
-      if (!thisGrid.isFinishedDrawing === true) {
-        thisGrid.neighbours.forEach(el => {
-          if (+tile.dataset.row === el[0] && +tile.dataset.column === el[1]) {
-            tile.classList.add(classNames.tile.neighbour);
-          }
-        });
+    // create grid and add datasets attributes
+    for (let rows = 0; rows < 10; rows++) {
+      for (let columns = 0; columns < 10; columns++) {
+        const cell = document.createElement('div');
+        cell.classList.add(classNames.tile.tile);
+        cell.setAttribute('data-row', rows);
+        cell.setAttribute('data-column', columns);
+        thisGrid.gridContainer.appendChild(cell);
       }
-
-      thisGrid.selected.forEach(el => {
-        if (+tile.dataset.row === el[0] && +tile.dataset.column === el[1]) {
-          tile.classList.remove(classNames.tile.neighbour);
-          tile.classList.add(classNames.tile.selected);
-        }
-      });
     }
+
+    thisGrid.initGridState();
   }
 
   initGridState() {
@@ -89,22 +68,6 @@ class Grid {
     for (let i = 0; i < 10; i++) {
       thisGrid.state.push(new Array(10).fill(0));
     }
-  }
-
-  drawGrid() {
-    const thisGrid = this;
-
-    // create grid and add datasets attributes
-    for (let rows = 0; rows < 10; rows++) {
-      for (let columns = 0; columns < 10; columns++) {
-        const cell = document.createElement('div');
-        cell.classList.add(classNames.tile.tile);
-        cell.setAttribute('data-row', rows);
-        cell.setAttribute('data-column', columns);
-        thisGrid.gridContainer.appendChild(cell);
-      }
-    }
-    thisGrid.initGridState();
   }
 
   manageGridState() {
@@ -130,13 +93,13 @@ class Grid {
       ) {
         thisGrid.state[row][column] = 3;
         thisGrid.isStartSelected = true;
-        thisGrid.startPoint.push([row, column]);
+        thisGrid.startPoint.push(row, column);
       }
 
       if (thisGrid.state[row][column] === 1 && thisGrid.isStartSelected == true) {
         thisGrid.state[row][column] = 4;
         thisGrid.isFinishSelected = true;
-        thisGrid.finishPoint.push([row, column]);
+        thisGrid.finishPoint.push(row, column);
       }
 
       if (thisGrid.state[row][column] === 2) {
@@ -179,6 +142,40 @@ class Grid {
     }
   }
 
+  updateUI(row, col) {
+    const thisGrid = this;
+    thisGrid.allTiles = document.querySelectorAll(select.element.tiles);
+
+    for (let tile of thisGrid.allTiles) {
+      thisGrid.state[row][col] === 0 ? tile.classList.remove(classNames.tile.selected) : '';
+
+      if (thisGrid.startPoint[0] === +tile.dataset.row && thisGrid.startPoint[1] === +tile.dataset.column) {
+        tile.classList.remove(classNames.tile.selected);
+        tile.classList.add(classNames.tile.start);
+      }
+
+      if (thisGrid.finishPoint[0] === +tile.dataset.row && thisGrid.finishPoint[1] === +tile.dataset.column) {
+        tile.classList.remove(classNames.tile.selected);
+        tile.classList.add(classNames.tile.finish);
+      }
+
+      if (!thisGrid.isFinishedDrawing === true) {
+        thisGrid.neighbours.forEach(el => {
+          if (+tile.dataset.row === el[0] && +tile.dataset.column === el[1]) {
+            tile.classList.add(classNames.tile.neighbour);
+          }
+        });
+      }
+
+      thisGrid.selected.forEach(el => {
+        if (+tile.dataset.row === el[0] && +tile.dataset.column === el[1]) {
+          tile.classList.remove(classNames.tile.neighbour);
+          tile.classList.add(classNames.tile.selected);
+        }
+      });
+    }
+  }
+
   isNotIncluded(array, r, c) {
     if (
       array.filter(el => {
@@ -218,9 +215,7 @@ class Grid {
       thisGrid.finishDrawingBtn.classList.remove('active-btn');
       thisGrid.computeRouteBtn.classList.add('active-btn');
 
-      let allTiles = document.querySelectorAll('.tile');
-
-      for (let tile of allTiles) {
+      for (let tile of thisGrid.allTiles) {
         thisGrid.neighbours.forEach(el => {
           if (+tile.dataset.row === el[0] && +tile.dataset.column === el[1]) {
             tile.classList.remove(classNames.tile.neighbour);
@@ -236,16 +231,16 @@ class Grid {
       thisGrid.instructions.innerHTML = 'The best route is...';
       thisGrid.computeRouteBtn.classList.remove('active-btn');
       thisGrid.startAgainBtn.classList.add('active-btn');
-      thisGrid.shortestPath();
+      thisGrid.findShortestPath();
     });
   }
 
-  shortestPath() {
+  findShortestPath() {
     const thisGrid = this;
 
     // Find shortest path from startPoint to finishPoint based on BFS algorithm
-    thisGrid.queue.push(thisGrid.startPoint[0]);
-    thisGrid.visitedNodes.push(thisGrid.startPoint[0]);
+    thisGrid.queue.push(thisGrid.startPoint);
+    thisGrid.visitedNodes.push(thisGrid.startPoint);
 
     // declare helper variable to keep track of previously visited cells
     thisGrid.previousCell = [];
@@ -258,7 +253,7 @@ class Grid {
 
       // check if current cell is finish point
 
-      if (curr[0] === thisGrid.finishPoint[0][0] && curr[1] === thisGrid.finishPoint[0][1]) {
+      if (curr[0] === thisGrid.finishPoint[0] && curr[1] === thisGrid.finishPoint[1]) {
         thisGrid.renderPath();
         return true;
       }
@@ -282,16 +277,14 @@ class Grid {
   renderPath() {
     const thisGrid = this;
     let path = [];
-    path.push(thisGrid.finishPoint[0]);
+    path.push(thisGrid.finishPoint);
 
     while (thisGrid.previousCell[path[path.length - 1][0]][path[path.length - 1][1]] !== false) {
-      let toPush = thisGrid.previousCell[path[path.length - 1][0]][path[path.length - 1][1]];
-      path.push(toPush);
+      let addToPath = thisGrid.previousCell[path[path.length - 1][0]][path[path.length - 1][1]];
+      path.push(addToPath);
     }
 
-    let allTiles = document.querySelectorAll('.tile');
-
-    for (let tile of allTiles) {
+    for (let tile of thisGrid.allTiles) {
       path.forEach(el => {
         if (+tile.dataset.row === el[0] && +tile.dataset.column === el[1]) {
           tile.classList.remove(classNames.tile.selected);
