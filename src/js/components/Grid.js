@@ -84,8 +84,9 @@ class Grid {
       if (thisGrid.isFinishedDrawing === true && thisGrid.state[row][column] !== 1) {
         return;
       }
-      // Set grid state to  1, 3, 4
+      // Set grid state to  0, 1, 2, 3, 4
 
+      // set start point
       if (
         thisGrid.isFinishedDrawing === true &&
 				thisGrid.state[row][column] === 1 &&
@@ -96,27 +97,45 @@ class Grid {
         thisGrid.startPoint.push(row, column);
       }
 
+      // set finish point
       if (thisGrid.state[row][column] === 1 && thisGrid.isStartSelected == true) {
         thisGrid.state[row][column] = 4;
         thisGrid.isFinishSelected = true;
         thisGrid.finishPoint.push(row, column);
       }
 
+      //standard cases
       if (thisGrid.state[row][column] === 2) {
         thisGrid.state[row][column] = 1;
-        thisGrid.setAsSelected(row, column);
-      } else if (thisGrid.isFirstClick && thisGrid.state[row][column] === 0) {
+        thisGrid.unsetAsNeighbour(row, column);
+        thisGrid.setNeighbours(row, column);
+      }
+
+      // first click
+      if (thisGrid.isFirstClick && thisGrid.state[row][column] === 0) {
         thisGrid.state[row][column] = 1;
-        thisGrid.setAsSelected(row, column);
-      } else if (!thisGrid.isFirstClick && thisGrid.state[row][column] === 0)
+        thisGrid.setNeighbours(row, column);
+      }
+
+      // click on state 0
+      if (!thisGrid.isFirstClick && thisGrid.state[row][column] === 0)
         alert('Please choose correct tile (green bakground)');
 
       thisGrid.updateUI(row, column);
       thisGrid.isFirstClick = false;
+      console.log(thisGrid.neighbours);
+      console.log(thisGrid.selected);
     });
   }
 
-  setAsSelected(row, column) {
+  unsetAsNeighbour(row, column) {
+    const thisGrid = this;
+    thisGrid.neighbours = thisGrid.neighbours.filter(el => {
+      return !(el[0] === row && el[1] === column);
+    });
+    console.log(thisGrid.neighbours);
+  }
+  setNeighbours(row, column) {
     const thisGrid = this;
 
     thisGrid.selected.push([row, column]);
@@ -159,7 +178,7 @@ class Grid {
         tile.classList.add(classNames.tile.finish);
       }
 
-      if (!thisGrid.isFinishedDrawing === true) {
+      if (thisGrid.isFinishedDrawing === false) {
         thisGrid.neighbours.forEach(el => {
           if (+tile.dataset.row === el[0] && +tile.dataset.column === el[1]) {
             tile.classList.add(classNames.tile.neighbour);
