@@ -37,6 +37,8 @@ class Grid {
     thisGrid.isFinishedDrawing = false;
     thisGrid.isStartSelected = false;
     thisGrid.isFinishSelected = false;
+    thisGrid.isLastlySelected = false;
+    thisGrid.lastlySelectedTile = [];
   }
 
   drawGrid() {
@@ -79,12 +81,31 @@ class Grid {
       let row = Number(event.target.dataset.row);
       let column = Number(event.target.dataset.column);
 
+      console.log(thisGrid.lastlySelectedTile[0]);
+      console.log(thisGrid.lastlySelectedTile[1]);
+
       // guard clauses
       if (thisGrid.isStartSelected === true && thisGrid.isFinishSelected === true) return;
       if (thisGrid.isFinishedDrawing === true && thisGrid.state[row][column] !== 1) {
         return;
       }
       // Set grid state to  0, 1, 2, 3, 4
+
+      //  unclick
+      if (
+        row === thisGrid.lastlySelectedTile[0] &&
+				column === thisGrid.lastlySelectedTile[1] &&
+				!thisGrid.isFirstClick &&
+				thisGrid.state[row][column] === 1 &&
+				thisGrid.isStartSelected === false
+      ) {
+        thisGrid.state[row][column] = 2;
+        thisGrid.lastlySelectedTile = [];
+        thisGrid.manageUnclick(row, column);
+        thisGrid.selected.pop();
+        thisGrid.neighbours.push([row, column]);
+        thisGrid.isLastlySelected = true;
+      }
 
       // set start point
       if (
@@ -107,6 +128,8 @@ class Grid {
       //standard cases
       if (thisGrid.state[row][column] === 2) {
         thisGrid.state[row][column] = 1;
+        thisGrid.lastlySelectedTile = [];
+        thisGrid.lastlySelectedTile.push(row, column);
         thisGrid.unsetAsNeighbour(row, column);
         thisGrid.setNeighbours(row, column);
       }
@@ -114,6 +137,8 @@ class Grid {
       // first click
       if (thisGrid.isFirstClick && thisGrid.state[row][column] === 0) {
         thisGrid.state[row][column] = 1;
+        thisGrid.lastlySelectedTile = [];
+        thisGrid.lastlySelectedTile.push(row, column);
         thisGrid.setNeighbours(row, column);
       }
 
@@ -123,9 +148,57 @@ class Grid {
 
       thisGrid.updateUI(row, column);
       thisGrid.isFirstClick = false;
-      console.log(thisGrid.neighbours);
-      console.log(thisGrid.selected);
+      // console.log(thisGrid.neighbours)
+      // console.log(thisGrid.selected)
+      console.log(thisGrid.state);
     });
+  }
+  manageUnclick(row, column) {
+    const thisGrid = this;
+    thisGrid.allTiles = document.querySelectorAll(select.element.tiles);
+
+    for (let tile of thisGrid.allTiles) {
+      if (+tile.dataset.row === row && column === +tile.dataset.column) {
+        tile.classList.add(classNames.tile.neighbour);
+      }
+    }
+    if (!(row - 1 < 0) && thisGrid.state[row - 1][column] != 1) {
+      thisGrid.state[row - 1][column] = 0;
+      thisGrid.neighbours.pop();
+
+      for (let tile of thisGrid.allTiles) {
+        if (+tile.dataset.row === row - 1 && column === +tile.dataset.column) {
+          tile.classList.remove(classNames.tile.neighbour);
+        }
+      }
+    }
+    if (!(row + 1 < 0) && thisGrid.state[row + 1][column] != 1) {
+      thisGrid.state[row + 1][column] = 0;
+      thisGrid.neighbours.pop();
+      for (let tile of thisGrid.allTiles) {
+        if (+tile.dataset.row === row + 1 && column === +tile.dataset.column) {
+          tile.classList.remove(classNames.tile.neighbour);
+        }
+      }
+    }
+    if (!(column - 1 < 0) && thisGrid.state[row][column - 1] != 1) {
+      thisGrid.state[row][column - 1] = 0;
+      thisGrid.neighbours.pop();
+      for (let tile of thisGrid.allTiles) {
+        if (+tile.dataset.row === row && column - 1 === +tile.dataset.column) {
+          tile.classList.remove(classNames.tile.neighbour);
+        }
+      }
+    }
+    if (!(column + 1 < 0) && thisGrid.state[row][column + 1] != 1) {
+      thisGrid.state[row][column + 1] = 0;
+      thisGrid.neighbours.pop();
+      for (let tile of thisGrid.allTiles) {
+        if (+tile.dataset.row === row && column + 1 === +tile.dataset.column) {
+          tile.classList.remove(classNames.tile.neighbour);
+        }
+      }
+    }
   }
 
   unsetAsNeighbour(row, column) {
@@ -133,7 +206,6 @@ class Grid {
     thisGrid.neighbours = thisGrid.neighbours.filter(el => {
       return !(el[0] === row && el[1] === column);
     });
-    console.log(thisGrid.neighbours);
   }
   setNeighbours(row, column) {
     const thisGrid = this;
@@ -181,6 +253,7 @@ class Grid {
       if (thisGrid.isFinishedDrawing === false) {
         thisGrid.neighbours.forEach(el => {
           if (+tile.dataset.row === el[0] && +tile.dataset.column === el[1]) {
+            tile.classList.remove(classNames.tile.selected);
             tile.classList.add(classNames.tile.neighbour);
           }
         });
