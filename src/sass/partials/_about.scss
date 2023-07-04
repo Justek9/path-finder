@@ -45,3 +45,22 @@
     text-align: left;
   }
 }
+
+@media (max-width: 700px) {
+  .plan-journeys,
+  .boredom {
+    width: 100%;
+    height: auto;
+    z-index: 2;
+    margin-left: 10px;
+    margin-right: 10px;
+
+    img {
+      margin-top: 1vw;
+      margin-left: 1vw;
+      height: auto;
+      z-index: 2;
+      width: 100%;
+    }
+  }
+}

@@ -6,7 +6,7 @@ export const select = {
 
   element: {
     tiles: '.tile',
-    text: '.draw',
+    text: '.instructions',
   },
 
   nav: {
@@ -34,5 +34,9 @@ export const classNames = {
     start: 'first-selected',
     finish: 'last-selected',
     path: 'path',
+  },
+
+  button: {
+    active: 'active-btn',
   },
 };

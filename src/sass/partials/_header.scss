@@ -20,22 +20,21 @@
 .logo {
   position: absolute;
   color: $color-light;
+  @include center;
   text-transform: uppercase;
   letter-spacing: 0.2rem;
-  @include center;
   top: 35%;
   font-weight: $font-bold;
 
   .logo__title {
     letter-spacing: 2rem;
     font-size: 3rem;
-    margin-bottom: 0px;
+    padding: 1rem;
   }
 
   .logo__subtitle {
     font-size: 1.5rem;
     text-align: right;
-    margin-top: 0px;
   }
 }
 
@@ -56,6 +55,50 @@
       cursor: pointer;
       color: $color-route;
       transition: $transition;
+    }
+  }
+}
+
+@media (max-width: 600px) {
+  .logo {
+    letter-spacing: 0.1rem;
+
+    .logo__title {
+      letter-spacing: 0.5rem;
+      font-size: 1.5rem;
+    }
+
+    .logo__subtitle {
+      font-size: 0.5rem;
+    }
+  }
+}
+
+@media (max-width: 815px) {
+  .header {
+    height: 50vh;
+    width: 100%;
+  }
+
+  .h1 {
+    font-size: 2rem;
+  }
+
+  .h2 {
+    font-size: 0.5rem;
+  }
+}
+
+@media (min-width: 959px) {
+  .logo {
+    letter-spacing: 0.3rem;
+
+    .logo__title {
+      font-size: 4rem;
+    }
+
+    .logo__subtitle {
+      font-size: 2.5rem;
     }
   }
 }

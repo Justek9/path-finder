@@ -75,7 +75,6 @@ class Grid {
 
   manageGridState() {
     const thisGrid = this;
-    // let previousState = []
 
     // add event listener on cells
     thisGrid.gridContainer.addEventListener('click', function (event) {
@@ -85,14 +84,9 @@ class Grid {
 
       // guard clauses
       if (thisGrid.isStartSelected === true && thisGrid.isFinishSelected === true) return;
-      if (thisGrid.isFinishedDrawing === true && thisGrid.state[row][column] !== 1) {
-        return;
-      }
-
-      // Set grid state to  0, 1, 2, 3, 4
+      if (thisGrid.isFinishedDrawing === true && thisGrid.state[row][column] !== 1) return;
 
       //  unclick lastly selected
-
       if (
         thisGrid.isFinishedDrawing === false &&
 				row === thisGrid.lastlySelectedTile[0] &&
@@ -261,16 +255,15 @@ class Grid {
   finishDrawingBtnHandler() {
     const thisGrid = this;
     thisGrid.finishDrawingBtn.addEventListener('click', function () {
-			
       if (thisGrid.selected.length <= 1) {
         alert('Please choose at least two tiles');
         return;
       }
 
       thisGrid.isFinishedDrawing = true;
-      thisGrid.instructions.innerHTML = 'Pick start and finish';
-      thisGrid.finishDrawingBtn.classList.remove('active-btn');
-      thisGrid.computeRouteBtn.classList.add('active-btn');
+      thisGrid.instructions.innerText = 'Pick start and finish';
+      thisGrid.finishDrawingBtn.classList.remove(classNames.button.active);
+      thisGrid.computeRouteBtn.classList.add(classNames.button.active);
 
       for (let tile of thisGrid.allTiles) {
         thisGrid.neighbours.forEach(el => {
@@ -285,9 +278,9 @@ class Grid {
   computeBtnHandler() {
     const thisGrid = this;
     thisGrid.computeRouteBtn.addEventListener('click', function () {
-      thisGrid.instructions.innerHTML = 'The best route is...';
-      thisGrid.computeRouteBtn.classList.remove('active-btn');
-      thisGrid.startAgainBtn.classList.add('active-btn');
+      thisGrid.instructions.innerText = 'The best route is...';
+      thisGrid.computeRouteBtn.classList.remove(classNames.button.active);
+      thisGrid.startAgainBtn.classList.add(classNames.button.active);
       thisGrid.findShortestPath();
     });
   }
@@ -333,9 +326,11 @@ class Grid {
 
   renderPath() {
     const thisGrid = this;
+
     let path = [];
     path.push(thisGrid.finishPoint);
 
+    // check previously visited cell and add it path array, when previous = false finish loop
     while (thisGrid.previousCell[path[path.length - 1][0]][path[path.length - 1][1]] !== false) {
       let addToPath = thisGrid.previousCell[path[path.length - 1][0]][path[path.length - 1][1]];
       path.push(addToPath);
@@ -394,9 +389,9 @@ class Grid {
 
     // reset grid state and initial values, draw new grid
     thisGrid.startAgainBtn.addEventListener('click', function () {
-      thisGrid.startAgainBtn.classList.remove('active-btn');
-      thisGrid.finishDrawingBtn.classList.add('active-btn');
-      thisGrid.instructions.innerHTML = 'Draw routes';
+      thisGrid.startAgainBtn.classList.remove(classNames.button.active);
+      thisGrid.finishDrawingBtn.classList.add(classNames.button.active);
+      thisGrid.instructions.innerText = 'Draw routes';
       thisGrid.initValues();
       thisGrid.state = [];
       thisGrid.initGridState();

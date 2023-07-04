@@ -14,3 +14,17 @@ h4 {
   z-index: 3;
   letter-spacing: 0.5rem;
 }
+
+@media (max-width: 600px) {
+  h3 {
+    font-size: 0.7rem;
+    letter-spacing: 0.2rem;
+    line-height: 1.5rem;
+  }
+
+  h4 {
+    font-size: 0.5rem;
+    line-height: 0.5rem;
+    letter-spacing: 0.2rem;
+  }
+}
