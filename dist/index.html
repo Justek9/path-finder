@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Path finder</title>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <header class="header">
+        <img src="./images/background.jpg" alt="road in the mountains">
+        <div class="header__wrapper">
+            <div class="main-nav">
+                <a href="#about">About</a>
+                <a href="#finder">Finder</a>
+            </div>
+            <div class="logo">
+                <h1 class="logo__title">Pathfinder</h1>
+                <h2 class="logo__subtitle">For travellers</h2>
+            </div>
+        </div>
+    </header>
+    <main>
+        <div id="pages">
+            <section id="about">
+                <div class="plan-journeys" data-aos="zoom-in">
+                    <img src="./images/1.jpg" alt="two girls">
+                    <h3>Plan your yourneys</h3>
+                    <h4>Pick attractions and book hotel</h4>
+                </div>
+                <div class="boredom" data-aos="zoom-in">
+                    <img src="./images/2.jpg" alt="intersection">
+                    <h3>Minimalize boredom</h3>
+                    <h4>Pick routes that are short and attractive</h4>
+                </div>
+            </section>
+            <section id="finder">
+                <p class="instructions">Draw routes</p>
+                <div class="grid-container">
+                    <div class="grid"></div>
+                    <p class="browser-only">This app is browser only!</p>
+                    <button class="btn finish active-btn" type="button">Finish drawing</button>
+                    <button class="btn compute" type="button">Compute</button>
+                    <button class="btn start" type="button">Start again</button>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer>
+        <p class="footer">All rights reserved</p>
+    </footer>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="./js/app.js" type="module"></script>
+    <script>
+        AOS.init();
+    </script>
+</body>
+
+</html>
