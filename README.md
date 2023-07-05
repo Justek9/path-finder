@@ -1,1 +1,1 @@
-[Pathfinder](path-finder.justek9.repl.co)
+[Pathfinder](https://path-finder.justek9.repl.co)
