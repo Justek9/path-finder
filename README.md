@@ -1,1 +1,1 @@
-[Pathfinder](https://path-finder-qdae.onrender.com/)
+[Pathfinder](https://pathfinder.kckm.pl/)
